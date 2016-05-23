@@ -5,11 +5,16 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        double firstNumber;
+        double secondNumber;
+        String choice;
         hello();
         help();
-        double firstNumber = usersFirstNumbers();
-        String choice = usersChoise();
-        double secondNumber = usersSecondNumber();
+        firstNumber = usersFirstNumbers();
+        choice = usersChoice();
+        validationOfEnter(choice);
+        checkUserChoice(firstNumber, choice);
+        secondNumber = usersSecondNumber();
         results(firstNumber, secondNumber, choice);
         stopCalculator();
 
@@ -25,6 +30,7 @@ public class Main {
         System.out.println("Difference : -");
         System.out.println("multiplication : *");
         System.out.println("division : /");
+        System.out.println("You can find cos and sin");
 
 
     }
@@ -38,7 +44,7 @@ public class Main {
 
     }
 
-    public static String usersChoise() {
+    public static String usersChoice() {
         System.out.println("Select an action");
         Scanner in = new Scanner(System.in);
         String enter = in.nextLine();
@@ -73,11 +79,6 @@ public class Main {
         } else if (choice.equals("^")) {
             System.out.println(pow(firstNumber, secondNumber));
 
-        } else if (choice.equals("cos")) {
-            System.out.println(cos(firstNumber));
-
-        } else if (choice.equals("sin")) {
-            System.out.println(sin(firstNumber));
         }
 
 
@@ -121,25 +122,72 @@ public class Main {
         return fact;
     }
 
-    public static void restart() {
+    /**
+     * Method checks what user choice: cos and sin or another action
+     */
 
-        double firstNumber = usersFirstNumbers();
-        String choise = usersChoise();
-        double secondNumber = usersSecondNumber();
-        results(firstNumber, secondNumber, choise);
+    public static void checkUserChoice(double firstNumber, String choice) {
+        if (choice.equals("cos") || choice.equals("sin")) {
+            resultsCosAndSin(firstNumber, choice);
+        }
+    }
+
+    /**
+     * Method takes results from sin and cos
+     */
+
+    public static void resultsCosAndSin(double firstNumber, String choice) {
+        if (choice.equals("cos")) {
+            System.out.println(cos(firstNumber));
+        } else if (choice.equals("sin")) {
+            System.out.println(sin(firstNumber));
+        }
         stopCalculator();
     }
 
+
+    public static void restart() {
+
+        double firstNumber = usersFirstNumbers();
+        String choice = usersChoice();
+        validationOfEnter(choice);
+        checkUserChoice(firstNumber, choice);
+        double secondNumber = usersSecondNumber();
+        results(firstNumber, secondNumber, choice);
+        stopCalculator();
+    }
+
+    /**
+     * Method asks about exit
+     */
     public static void stopCalculator() {
         System.out.println("Do yo wont to exit y/n?");
         Scanner enter = new Scanner(System.in);
-        String userChoise = enter.nextLine();
-        if (userChoise.equals("y")) {
-
-        } else if (userChoise.equals("n")) {
+        String userChoice = enter.nextLine();
+        if (userChoice.equals("y")) {
+            System.out.println("Goodbye!");
+            System.exit(0);
+        } else if (userChoice.equals("n")) {
             restart();
         }
 
+    }
+
+    /**
+     * Method checks you entered is correct
+     */
+    public static void validationOfEnter(String choice) {
+        String q = "quit";
+        String sum = "+";
+        String sub = "-";
+        String multi = "*";
+        String div = "/";
+        String cos = "cos";
+        String sin = "sin";
+        if (!choice.equals(sum) && !choice.equals(sub) && !choice.equals(multi) && !choice.equals(div) && !choice.equals(cos) && !choice.equals(sin)) {
+            System.out.println("Incorrect enter");
+            restart();
+        }
     }
 
 
